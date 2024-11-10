@@ -1,66 +1,54 @@
-import {
-    HttpException,
-    HttpStatus,
-    Injectable,
-    NotFoundException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/modules/users/entities/user.entity';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-    private users: User[] = [
-        {
-            id: 0,
-            name: 'Moda',
-        },
-        {
-            id: 1,
-            name: 'John Doe',
-        },
-        {
-            id: 2,
-            name: 'Jane Doe',
-        },
-        {
-            id: 3,
-            name: 'John Smith',
-        },
-    ];
+    constructor(
+        // inject User entity to use in service
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
+    ) {}
 
-    getAllUsers(): User[] {
-        return this.users;
+    async getAllUsers() {
+        return await this.userRepository.find();
     }
 
-    getUserById(id: number) {
-        console.log(typeof id);
-        const user = this.users.find((user) => user.id === id);
+    async getUserById(id: number) {
+        const user = await this.userRepository.findOneBy({ id: id });
         if (!user) {
             throw new HttpException(
-                `Coffin #${id} not found`,
+                `User #${id} not found`,
                 HttpStatus.NOT_FOUND,
             );
         }
         return user;
     }
 
-    registerUser(createUserDto: any) {
-        this.users.push(createUserDto);
-        return createUserDto;
+    createUser(createUserDto: CreateUserDto) {
+        const user = this.userRepository.create(createUserDto);
+        return this.userRepository.save(user);
     }
 
-    updateUserById(id: number, updateUserDto: any) {
-        const existingUser = this.getUserById(id);
-        if (existingUser) {
-            // Do something in here
+    async updateUserById(id: number, updateUserDto: UpdateUserDto) {
+        const user = await this.userRepository.preload({
+            id: id,
+            ...updateUserDto,
+        })
+        if (!user) {
+            throw new HttpException(
+                `User #${id} not found`,
+                HttpStatus.NOT_FOUND,
+            );
         }
+        return this.userRepository.save(user);
     }
 
-    removeOneUser(id: string) {
-        const userIndex = this.users.findIndex(
-            (item) => item.id === Number(id),
-        );
-        if (userIndex >= 0) {
-            this.users.splice(userIndex, 1);
-        }
+    async removeUserById(id: number) {
+        const user = await this.getUserById(id);
+        return this.userRepository.remove(user);
     }
 }

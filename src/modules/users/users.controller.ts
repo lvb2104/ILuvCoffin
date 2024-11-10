@@ -18,19 +18,19 @@ export class UsersController {
     constructor(private readonly appService: UsersService) {}
 
     @Get()
-    getAllUsers(@Query() paginationQuery): User[] {
+    getAllUsers(@Query() paginationQuery) {
         // const { limit, offset } = paginationQuery;
         return this.appService.getAllUsers();
     }
 
     @Get(':id')
-    getUserById(@Param('id') id: number): User {
+    getUserById(@Param('id') id: number) {
         return this.appService.getUserById(id);
     }
 
     @Post()
     registerUser(@Body() createUserDto: CreateUserDto) {
-        return this.appService.registerUser(createUserDto);
+        return this.appService.createUser(createUserDto);
     }
 
     @Patch(':id')
@@ -42,7 +42,7 @@ export class UsersController {
     }
 
     @Delete(':id')
-    removeOneUser(@Param('id') id: string) {
-        return this.appService.removeOneUser(id);
+    removeOneUser(@Param('id') id: number) {
+        return this.appService.removeUserById(id);
     }
 }

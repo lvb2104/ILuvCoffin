@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
     imports: [
         UsersModule,
+        // import TypeOrmModule and inject User entity to use in service and controller
         TypeOrmModule.forRoot({
             type: 'postgres',
             host: 'localhost',
