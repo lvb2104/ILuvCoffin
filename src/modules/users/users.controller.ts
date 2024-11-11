@@ -9,7 +9,6 @@ import {
     Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from 'src/modules/users/entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -29,7 +28,7 @@ export class UsersController {
     }
 
     @Post()
-    registerUser(@Body() createUserDto: CreateUserDto) {
+    createUser(@Body() createUserDto: CreateUserDto) {
         return this.appService.createUser(createUserDto);
     }
 
@@ -42,7 +41,7 @@ export class UsersController {
     }
 
     @Delete(':id')
-    removeOneUser(@Param('id') id: number) {
+    removeUserById(@Param('id') id: number) {
         return this.appService.removeUserById(id);
     }
 }

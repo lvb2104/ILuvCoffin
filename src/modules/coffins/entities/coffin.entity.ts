@@ -1,13 +1,13 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-// Define User entity with TypeORM decorators to create User table in database
+
 @Entity()
-export class User {
+export class Coffin {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    name: string;
+    brand: string;
 
     @Column('json', { nullable: true })
-    phones: string[];
+    colors: string[];
 }

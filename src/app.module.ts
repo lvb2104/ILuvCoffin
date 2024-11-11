@@ -3,10 +3,10 @@ import { UsersModule } from './modules/users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoffinsModule } from './modules/coffins/coffins.module';
 
 @Module({
     imports: [
-        UsersModule,
         // import TypeOrmModule and inject User entity to use in service and controller
         TypeOrmModule.forRoot({
             type: 'postgres',
@@ -16,8 +16,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
             password: 'moda123',
             database: 'postgres',
             autoLoadEntities: true,
-            synchronize: true
+            synchronize: true,
         }),
+        UsersModule,
+        CoffinsModule,
     ],
     controllers: [AppController],
     providers: [AppService],

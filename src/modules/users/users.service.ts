@@ -18,6 +18,7 @@ export class UsersService {
     }
 
     async getUserById(id: number) {
+        // guarantee the code execution will wait for the promise to resolve
         const user = await this.userRepository.findOneBy({ id: id });
         if (!user) {
             throw new HttpException(
@@ -37,7 +38,7 @@ export class UsersService {
         const user = await this.userRepository.preload({
             id: id,
             ...updateUserDto,
-        })
+        });
         if (!user) {
             throw new HttpException(
                 `User #${id} not found`,
