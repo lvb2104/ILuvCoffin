@@ -18,6 +18,9 @@ export class Coffin {
     // specify the owner side
     @JoinTable()
     // specify the inverse side
-    @ManyToMany(type => Color, color => color.coffins)
-    colors: string[];
+    @ManyToMany((type) => Color, (color) => color.coffins, {
+        // cascade: true means that if you save a coffin, all its colors will be saved too
+        cascade: true,
+    })
+    colors: Color[];
 }
