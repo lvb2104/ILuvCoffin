@@ -10,14 +10,15 @@ import {
 import { CoffinsService } from './coffins.service';
 import { CreateCoffinDto } from './dto/create-coffin.dto';
 import { UpdateCoffinDto } from './dto/update-coffin.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Controller('coffins')
 export class CoffinsController {
     constructor(private readonly coffinService: CoffinsService) {}
 
     @Get()
-    getAllCoffins() {
-        return this.coffinService.getAllCoffins();
+    getAllCoffins(@Param() paginationQueryDto: PaginationQueryDto) {
+        return this.coffinService.getAllCoffins(paginationQueryDto);
     }
 
     @Get(':id')

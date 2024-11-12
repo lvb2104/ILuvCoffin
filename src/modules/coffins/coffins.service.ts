@@ -6,6 +6,7 @@ import { CreateCoffinDto } from './dto/create-coffin.dto';
 import { UpdateCoffinDto } from './dto/update-coffin.dto';
 import { Color } from './entities/color.entity';
 import { create } from 'domain';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Injectable()
 export class CoffinsService {
@@ -16,10 +17,13 @@ export class CoffinsService {
         private readonly colorRepository: Repository<Color>,
     ) {}
 
-    async getAllCoffins() {
+    async getAllCoffins(paginationQueryDto: PaginationQueryDto) {
+        const { limit, offset } = paginationQueryDto;
         return await this.coffinRepository.find({
             // load the colors relation from coffin entity (eagerly to avoid n+1 problem when fetching coffins with colors in the controller action handler method)
             relations: ['colors'],
+            skip: offset,
+            take: limit
         });
     }
 
@@ -42,16 +46,16 @@ export class CoffinsService {
         const colors = await Promise.all(
             createCoffinDto.colors.map((color) =>
                 this.preloadColorByName(color),
-        ),
-    );
-    const coffin = this.coffinRepository.create({
-        ...createCoffinDto,
-        colors,
-    });
-    return this.coffinRepository.save(coffin);
-}
+            ),
+        );
+        const coffin = this.coffinRepository.create({
+            ...createCoffinDto,
+            colors,
+        });
+        return this.coffinRepository.save(coffin);
+    }
 
-async updateCoffin(id: number, updateCoffinDto: UpdateCoffinDto) {
+    async updateCoffin(id: number, updateCoffinDto: UpdateCoffinDto) {
         // avoid creating duplicate colors in the database
         const colors = await Promise.all(
             updateCoffinDto.colors.map((color) =>
@@ -61,7 +65,7 @@ async updateCoffin(id: number, updateCoffinDto: UpdateCoffinDto) {
         const coffin = await this.coffinRepository.preload({
             id: id,
             ...updateCoffinDto,
-            colors
+            colors,
         });
         if (!coffin) {
             throw new HttpException(

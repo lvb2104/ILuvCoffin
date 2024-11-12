@@ -1,5 +1,5 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Coffin } from "./coffin.entity";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Coffin } from './coffin.entity';
 
 @Entity()
 export class Color {
@@ -9,6 +9,6 @@ export class Color {
     @Column()
     name: string;
 
-    @ManyToMany(type => Coffin, coffin => coffin.colors)
+    @ManyToMany((type) => Coffin, (coffin) => coffin.colors)
     coffins: Coffin[];
 }

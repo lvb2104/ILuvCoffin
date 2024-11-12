@@ -11,15 +11,16 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Controller('users')
 export class UsersController {
     constructor(private readonly appService: UsersService) {}
 
     @Get()
-    getAllUsers(@Query() paginationQuery) {
+    getAllUsers(@Query() paginationQuery: PaginationQueryDto) {
         // const { limit, offset } = paginationQuery;
-        return this.appService.getAllUsers();
+        return this.appService.getAllUsers(paginationQuery);
     }
 
     @Get(':id')
