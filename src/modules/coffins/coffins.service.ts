@@ -13,11 +13,14 @@ export class CoffinsService {
     ) {}
 
     async getAllCoffins() {
-        return await this.coffinRepository.find();
+        return await this.coffinRepository.find({
+            // load the colors relation from coffin entity (eagerly to avoid n+1 problem when fetching coffins with colors in the controller action handler method)
+            relations: ['colors']
+        });
     }
 
     async getCoffinById(id: number) {
-        const coffin = await this.coffinRepository.findOneBy({ id: id });
+        const coffin = await this.coffinRepository.find({ where: {id}, relations: ['colors'] });
         if (!coffin) {
             throw new HttpException(
                 `Coffin #${id} not found`,

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    JoinTable,
+    ManyToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Color } from './color.entity';
 
 @Entity()
 export class Coffin {
@@ -8,6 +15,9 @@ export class Coffin {
     @Column()
     brand: string;
 
-    @Column('json', { nullable: true })
+    // specify the owner side
+    @JoinTable()
+    // specify the inverse side
+    @ManyToMany(type => Color, color => color.coffins)
     colors: string[];
 }
