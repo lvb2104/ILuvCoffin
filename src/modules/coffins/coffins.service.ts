@@ -15,7 +15,7 @@ export class CoffinsService {
         private readonly coffinRepository: Repository<Coffin>,
         @InjectRepository(Color)
         private readonly colorRepository: Repository<Color>,
-        private readonly dataSource: DataSource
+        private readonly dataSource: DataSource,
     ) {}
 
     async getAllCoffins(paginationQueryDto: PaginationQueryDto) {
@@ -24,7 +24,7 @@ export class CoffinsService {
             // load the colors relation from coffin entity (eagerly to avoid n+1 problem when fetching coffins with colors in the controller action handler method)
             relations: ['colors'],
             skip: offset,
-            take: limit
+            take: limit,
         });
     }
 
@@ -58,11 +58,13 @@ export class CoffinsService {
 
     async updateCoffin(id: number, updateCoffinDto: UpdateCoffinDto) {
         // avoid creating duplicate colors in the database
-        const colors = await Promise.all(
-            updateCoffinDto.colors.map((color) =>
-                this.preloadColorByName(color),
-            ),
-        );
+        const colors =
+            updateCoffinDto.colors &&
+            (await Promise.all(
+                updateCoffinDto.colors.map((color) =>
+                    this.preloadColorByName(color),
+                ),
+            ));
         const coffin = await this.coffinRepository.preload({
             id: id,
             ...updateCoffinDto,

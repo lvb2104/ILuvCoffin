@@ -18,7 +18,7 @@ export class UsersService {
         const { limit, offset } = paginationQueryDto;
         return await this.userRepository.find({
             skip: offset,
-            take: limit
+            take: limit,
         });
     }
 

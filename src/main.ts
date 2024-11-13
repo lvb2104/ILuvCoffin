@@ -6,6 +6,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(
         new ValidationPipe({
+            // enable validation error response
             whitelist: true,
             // enable auto-transforming payloads to their respective DTO instances
             transform: true,
@@ -17,7 +18,7 @@ async function bootstrap() {
             },
         }),
     );
-    const PORT = 3333;
+    const PORT = process.env.PORT;
     await app.listen(PORT);
 }
 

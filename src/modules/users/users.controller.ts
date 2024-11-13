@@ -19,7 +19,6 @@ export class UsersController {
 
     @Get()
     getAllUsers(@Query() paginationQuery: PaginationQueryDto) {
-        // const { limit, offset } = paginationQuery;
         return this.appService.getAllUsers(paginationQuery);
     }
 

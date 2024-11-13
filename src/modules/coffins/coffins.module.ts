@@ -7,6 +7,7 @@ import { Color } from './entities/color.entity';
 import { Event } from 'src/events/entities/event.entity';
 
 @Module({
+    // register entities
     imports: [TypeOrmModule.forFeature([Coffin, Color, Event])],
     controllers: [CoffinsController],
     providers: [CoffinsService],
