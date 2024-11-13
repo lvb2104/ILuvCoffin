@@ -15,6 +15,9 @@ export class Coffin {
     @Column()
     brand: string;
 
+    @Column({ default: 0 })
+    recommendations: number;
+
     // specify the owner side
     @JoinTable()
     // specify the inverse side

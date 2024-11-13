@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Coffin } from './entities/coffin.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CreateCoffinDto } from './dto/create-coffin.dto';
 import { UpdateCoffinDto } from './dto/update-coffin.dto';
 import { Color } from './entities/color.entity';
-import { create } from 'domain';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { Event } from 'src/events/entities/event.entity';
 
 @Injectable()
 export class CoffinsService {
@@ -15,6 +15,7 @@ export class CoffinsService {
         private readonly coffinRepository: Repository<Coffin>,
         @InjectRepository(Color)
         private readonly colorRepository: Repository<Color>,
+        private readonly dataSource: DataSource
     ) {}
 
     async getAllCoffins(paginationQueryDto: PaginationQueryDto) {
@@ -79,6 +80,31 @@ export class CoffinsService {
     async removeCoffinById(id: number) {
         const coffin = await this.getCoffinById(id);
         return this.coffinRepository.remove(coffin);
+    }
+
+    async recommend(coffin: Coffin) {
+        const queryRunner = this.dataSource.createQueryRunner();
+
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+
+        try {
+            coffin.recommendations++;
+
+            const recommendEvent = new Event();
+            recommendEvent.name = 'recommend_coffin';
+            recommendEvent.type = 'coffin';
+            recommendEvent.payload = { coffinId: coffin.id };
+
+            await queryRunner.manager.save(coffin);
+            await queryRunner.manager.save(recommendEvent);
+
+            await queryRunner.commitTransaction();
+        } catch (error) {
+            await queryRunner.rollbackTransaction();
+        } finally {
+            await queryRunner.release();
+        }
     }
 
     // return the real color entity from the database
