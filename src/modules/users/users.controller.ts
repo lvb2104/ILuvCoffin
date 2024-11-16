@@ -4,6 +4,7 @@ import {
     Delete,
     Get,
     Param,
+    ParseIntPipe,
     Patch,
     Post,
     Query,
@@ -23,7 +24,7 @@ export class UsersController {
     }
 
     @Get(':id')
-    getUserById(@Param('id') id: number) {
+    getUserById(@Param('id', ParseIntPipe) id: number) {
         return this.appService.getUserById(id);
     }
 
@@ -34,14 +35,14 @@ export class UsersController {
 
     @Patch(':id')
     updateUserById(
-        @Param('id') id: number,
+        @Param('id', ParseIntPipe) id: number,
         @Body() updateUserDto: UpdateUserDto,
     ) {
         return this.appService.updateUserById(id, updateUserDto);
     }
 
     @Delete(':id')
-    removeUserById(@Param('id') id: number) {
+    removeUserById(@Param('id', ParseIntPipe) id: number) {
         return this.appService.removeUserById(id);
     }
 }

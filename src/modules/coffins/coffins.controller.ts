@@ -4,6 +4,7 @@ import {
     Delete,
     Get,
     Param,
+    ParseIntPipe,
     Patch,
     Post,
 } from '@nestjs/common';
@@ -22,7 +23,7 @@ export class CoffinsController {
     }
 
     @Get(':id')
-    getCoffinById(@Param('id') id: number) {
+    getCoffinById(@Param('id', ParseIntPipe) id: number) {
         return this.coffinService.getCoffinById(id);
     }
 
@@ -33,14 +34,14 @@ export class CoffinsController {
 
     @Patch(':id')
     updateCoffin(
-        @Param('id') id: number,
+        @Param('id', ParseIntPipe) id: number,
         @Body() updateCoffinDto: UpdateCoffinDto,
     ) {
         return this.coffinService.updateCoffin(id, updateCoffinDto);
     }
 
     @Delete(':id')
-    removeCoffinById(@Param('id') id: number) {
+    removeCoffinById(@Param('id', ParseIntPipe) id: number) {
         return this.coffinService.removeCoffinById(id);
     }
 }

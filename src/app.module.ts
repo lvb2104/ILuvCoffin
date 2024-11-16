@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { CoffinsModule } from './modules/coffins/coffins.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
+import { CoffinRatingModule } from './modules/coffin-rating/coffin-rating.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
         DatabaseModule,
         UsersModule,
         CoffinsModule,
+        CoffinRatingModule,
     ],
     controllers: [AppController],
     providers: [AppService],

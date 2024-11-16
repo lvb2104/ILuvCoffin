@@ -10,6 +10,12 @@ import { Event } from 'src/events/entities/event.entity';
     // register entities
     imports: [TypeOrmModule.forFeature([Coffin, Color, Event])],
     controllers: [CoffinsController],
-    providers: [CoffinsService],
+    providers: [CoffinsService
+        // {
+        //     provide: 'COFFIN_BRANDS',
+        //     useValue: ['buddy brew', 'nescafe']
+        // }
+    ],
+    exports: [CoffinsService]
 })
 export class CoffinsModule {}

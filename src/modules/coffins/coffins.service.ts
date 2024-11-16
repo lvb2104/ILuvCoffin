@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Coffin } from './entities/coffin.entity';
 import { DataSource, Repository } from 'typeorm';
@@ -16,6 +16,7 @@ export class CoffinsService {
         @InjectRepository(Color)
         private readonly colorRepository: Repository<Color>,
         private readonly dataSource: DataSource,
+        // @Inject('COFFIN_BRANDS') coffinBrands: string[]
     ) {}
 
     async getAllCoffins(paginationQueryDto: PaginationQueryDto) {
