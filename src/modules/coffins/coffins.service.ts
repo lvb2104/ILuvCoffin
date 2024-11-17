@@ -16,7 +16,6 @@ export class CoffinsService {
         @InjectRepository(Color)
         private readonly colorRepository: Repository<Color>,
         private readonly dataSource: DataSource,
-        // @Inject('COFFIN_BRANDS') coffinBrands: string[]
     ) {}
 
     async getAllCoffins(paginationQueryDto: PaginationQueryDto) {

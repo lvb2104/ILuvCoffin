@@ -1,24 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(
         new ValidationPipe({
-            // enable validation error response
             whitelist: true,
-            // enable auto-transforming payloads to their respective DTO instances
-            transform: true,
-            // forbid non-whitelisted properties in the payload
             forbidNonWhitelisted: true,
-            // enable implicit type conversion
+            transform: true,
             transformOptions: {
                 enableImplicitConversion: true,
             },
         }),
     );
-    const PORT = process.env.PORT;
+    const configService = app.get(ConfigService);
+    const PORT = configService.get('PORT');
     await app.listen(PORT);
 }
 
