@@ -7,6 +7,8 @@ import {
     ParseIntPipe,
     Patch,
     Post,
+    UsePipes,
+    ValidationPipe,
 } from '@nestjs/common';
 import { CoffinsService } from './coffins.service';
 import { CreateCoffinDto } from './dto/create-coffin.dto';
@@ -16,7 +18,8 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 @Controller('coffins')
 export class CoffinsController {
     constructor(private readonly coffinService: CoffinsService) {}
-
+    
+    @UsePipes(ValidationPipe)
     @Get()
     getAllCoffins(@Param() paginationQueryDto: PaginationQueryDto) {
         return this.coffinService.getAllCoffins(paginationQueryDto);
@@ -35,7 +38,7 @@ export class CoffinsController {
     @Patch(':id')
     updateCoffin(
         @Param('id', ParseIntPipe) id: number,
-        @Body() updateCoffinDto: UpdateCoffinDto,
+        @Body(ValidationPipe) updateCoffinDto: UpdateCoffinDto,
     ) {
         return this.coffinService.updateCoffin(id, updateCoffinDto);
     }
