@@ -15,6 +15,7 @@ import { CreateCoffinDto } from './dto/create-coffin.dto';
 import { UpdateCoffinDto } from './dto/update-coffin.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Public } from 'src/common/decorators/public.decorator';
+import { CustomParseIntPipe } from 'src/common/pipes/parse-int/parse-int.pipe';
 
 @Controller('coffins')
 export class CoffinsController {
@@ -24,12 +25,14 @@ export class CoffinsController {
     @UsePipes(ValidationPipe)
     @Get()
     async getAllCoffins(@Param() paginationQueryDto: PaginationQueryDto) {
-        await new Promise(resolve => setTimeout(resolve, 6000));
+        // await new Promise(resolve => setTimeout(resolve, 6000));
         return this.coffinService.getAllCoffins(paginationQueryDto);
     }
 
+    @Public()
     @Get(':id')
-    getCoffinById(@Param('id', ParseIntPipe) id: number) {
+    getCoffinById(@Param('id', CustomParseIntPipe) id: number) {
+        console.log(id);
         return this.coffinService.getCoffinById(id);
     }
 
