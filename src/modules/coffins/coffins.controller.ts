@@ -16,6 +16,7 @@ import { UpdateCoffinDto } from './dto/update-coffin.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import { CustomParseIntPipe } from 'src/common/pipes/parse-int/parse-int.pipe';
+import { Protocol } from 'src/common/decorators/protocol.decorator';
 
 @Controller('coffins')
 export class CoffinsController {
@@ -24,7 +25,11 @@ export class CoffinsController {
     @Public()
     @UsePipes(ValidationPipe)
     @Get()
-    async getAllCoffins(@Param() paginationQueryDto: PaginationQueryDto) {
+    async getAllCoffins(
+        @Protocol('https') protocol: string,
+        @Param() paginationQueryDto: PaginationQueryDto,
+    ) {
+        console.log(protocol);
         // await new Promise(resolve => setTimeout(resolve, 6000));
         return this.coffinService.getAllCoffins(paginationQueryDto);
     }
