@@ -14,11 +14,13 @@ import { CoffinsService } from './coffins.service';
 import { CreateCoffinDto } from './dto/create-coffin.dto';
 import { UpdateCoffinDto } from './dto/update-coffin.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('coffins')
 export class CoffinsController {
     constructor(private readonly coffinService: CoffinsService) {}
-    
+
+    @Public()
     @UsePipes(ValidationPipe)
     @Get()
     getAllCoffins(@Param() paginationQueryDto: PaginationQueryDto) {
