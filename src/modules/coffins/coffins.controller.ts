@@ -23,7 +23,8 @@ export class CoffinsController {
     @Public()
     @UsePipes(ValidationPipe)
     @Get()
-    getAllCoffins(@Param() paginationQueryDto: PaginationQueryDto) {
+    async getAllCoffins(@Param() paginationQueryDto: PaginationQueryDto) {
+        await new Promise(resolve => setTimeout(resolve, 6000));
         return this.coffinService.getAllCoffins(paginationQueryDto);
     }
 
