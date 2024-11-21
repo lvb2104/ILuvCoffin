@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+    HttpException,
+    HttpStatus,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Coffin } from './entities/coffin.entity';
 import { DataSource, Repository } from 'typeorm';
@@ -6,7 +11,7 @@ import { CreateCoffinDto } from './dto/create-coffin.dto';
 import { UpdateCoffinDto } from './dto/update-coffin.dto';
 import { Color } from './entities/color.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { Event } from 'src/events/entities/event.entity';
+import { Event } from '../../events/entities/event.entity';
 
 @Injectable()
 export class CoffinsService {
@@ -29,15 +34,17 @@ export class CoffinsService {
     }
 
     async getCoffinById(id: number) {
-        const coffin = await this.coffinRepository.find({
+        // const coffin = await this.coffinRepository.find({
+        //     where: { id },
+        //     relations: ['colors'],
+        // });
+
+        const coffin = await this.coffinRepository.findOne({
             where: { id },
             relations: ['colors'],
         });
         if (!coffin) {
-            throw new HttpException(
-                `Coffin #${id} not found`,
-                HttpStatus.NOT_FOUND,
-            );
+            throw new NotFoundException(`Coffin #${id} not found`);
         }
         return coffin;
     }
