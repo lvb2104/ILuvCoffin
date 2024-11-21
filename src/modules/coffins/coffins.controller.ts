@@ -17,11 +17,15 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import { CustomParseIntPipe } from 'src/common/pipes/parse-int/parse-int.pipe';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
+import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('coffins')
 @Controller('coffins')
 export class CoffinsController {
     constructor(private readonly coffinService: CoffinsService) {}
 
+    // @ApiResponse({ status: 403, description: 'Forbidden' })
+    @ApiForbiddenResponse({ description: 'Forbidden' })
     @Public()
     @UsePipes(ValidationPipe)
     @Get()
