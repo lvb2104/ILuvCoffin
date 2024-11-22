@@ -20,6 +20,7 @@ async function bootstrap() {
         }),
     );
 
+    // setup swagger document for API documentation and testing in development environment only (not for production)
     const options = new DocumentBuilder()
         .setTitle('ILuvCoffin')
         .setDescription('Coffin application')

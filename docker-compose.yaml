@@ -5,6 +5,13 @@ services:
         image: postgres
         restart: no 
         ports:
-            - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+            - '${POSTGRES_PORT_HOST}:${POSTGRES_PORT_DOCKER}'
+        environment:
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    test-db:
+        image: postgres
+        restart: no 
+        ports:
+            - '${POSTGRES_PORT_HOST_TEST}:${POSTGRES_PORT_DOCKER}'
         environment:
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

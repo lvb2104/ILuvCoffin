@@ -56,7 +56,7 @@ describe('CoffinsService', () => {
                 const coffinId = 1;
                 const expectedCoffin = {};
 
-                // mock the findOne method of the repository to return the expected coffin object
+                // simulate the behavior of the findOne method of the repository mock to return the expected coffin object when called
                 coffinRepository.findOne.mockReturnValue(expectedCoffin);
                 const coffin = await service.getCoffinById(coffinId);
                 expect(coffin).toEqual(expectedCoffin);

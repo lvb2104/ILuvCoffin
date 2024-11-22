@@ -19,7 +19,9 @@
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "migration:run": "npx typeorm-ts-node-commonjs migration:run -d ormconfig.ts",
-        "migration:revert": "npx typeorm-ts-node-commonjs migration:revert -d ormconfig.ts"
+        "migration:revert": "npx typeorm-ts-node-commonjs migration:revert -d ormconfig.ts",
+        "pretest:e2e": "docker compose up -d test-db",
+        "posttest:e2e": "docker compose stop test-db && docker compose rm -f test-db"
     },
     "dependencies": {
         "@hapi/joi": "^17.1.1",
@@ -52,6 +54,7 @@
         "eslint": "^9.0.0",
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-prettier": "^5.0.0",
+        "jasmine": "^5.4.0",
         "jest": "^29.5.0",
         "prettier": "^3.3.3",
         "source-map-support": "^0.5.21",
