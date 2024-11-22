@@ -15,39 +15,53 @@ const createMockRepository = <T = any>(): MockRepository<T> => ({
     create: jest.fn(),
 });
 
+// use describe to group the tests for the CoffinsService class and its methods together in a single test suite
 describe('CoffinsService', () => {
     let service: CoffinsService;
     let coffinRepository: MockRepository;
 
+    // use beforeEach to run the code that is common for all the tests in the suite
     beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
+        // create a testing module with metadata for the CoffinsService and its dependencies
+        const moduleRef: TestingModule = await Test.createTestingModule({
             providers: [
                 CoffinsService,
                 { provide: DataSource, useValue: {} },
-                { provide: getRepositoryToken(Coffin), useValue: createMockRepository() },
-                { provide: getRepositoryToken(Color), useValue: createMockRepository() },
+                {
+                    provide: getRepositoryToken(Coffin),
+                    useValue: createMockRepository(),
+                },
+                {
+                    provide: getRepositoryToken(Color),
+                    useValue: createMockRepository(),
+                },
             ],
         }).compile();
 
-        service = module.get<CoffinsService>(CoffinsService);
-        coffinRepository = module.get<MockRepository>(getRepositoryToken(Coffin));
+        // saving the reference to the service and the repository mock to be able to use them in the tests
+        service = moduleRef.get<CoffinsService>(CoffinsService);
+        coffinRepository = moduleRef.get<MockRepository>(
+            getRepositoryToken(Coffin),
+        );
     });
 
     it('should be defined', () => {
         expect(service).toBeDefined();
     });
 
+    // use describe to group the tests for the getCoffinById method together in a single test suite
     describe('getCoffinById', () => {
         describe('when coffin with ID exists', () => {
             it('should return the coffin object', async () => {
                 const coffinId = 1;
                 const expectedCoffin = {};
 
+                // mock the findOne method of the repository to return the expected coffin object
                 coffinRepository.findOne.mockReturnValue(expectedCoffin);
                 const coffin = await service.getCoffinById(coffinId);
                 expect(coffin).toEqual(expectedCoffin);
-            })
-        })
+            });
+        });
 
         describe('otherwise', () => {
             it('should throw the "NotFoundException"', async () => {
@@ -58,9 +72,11 @@ describe('CoffinsService', () => {
                     await service.getCoffinById(coffinId);
                 } catch (error) {
                     expect(error).toBeInstanceOf(NotFoundException);
-                    expect(error.message).toEqual(`Coffin #${coffinId} not found`);
+                    expect(error.message).toEqual(
+                        `Coffin #${coffinId} not found`,
+                    );
                 }
-            })
-        })
-    })
+            });
+        });
+    });
 });

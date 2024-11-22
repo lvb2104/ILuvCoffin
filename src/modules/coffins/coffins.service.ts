@@ -10,7 +10,7 @@ import { DataSource, Repository } from 'typeorm';
 import { CreateCoffinDto } from './dto/create-coffin.dto';
 import { UpdateCoffinDto } from './dto/update-coffin.dto';
 import { Color } from './entities/color.entity';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
 import { Event } from '../../events/entities/event.entity';
 
 @Injectable()

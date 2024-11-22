@@ -13,11 +13,11 @@ import {
 import { CoffinsService } from './coffins.service';
 import { CreateCoffinDto } from './dto/create-coffin.dto';
 import { UpdateCoffinDto } from './dto/update-coffin.dto';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { Public } from 'src/common/decorators/public.decorator';
-import { CustomParseIntPipe } from 'src/common/pipes/parse-int/parse-int.pipe';
-import { Protocol } from 'src/common/decorators/protocol.decorator';
+import { CustomParseIntPipe } from './../../common/pipes/parse-int/parse-int.pipe';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { PaginationQueryDto } from './../../common/dto/pagination-query.dto';
+import { Public } from './../../common/decorators/public.decorator';
+import { Protocol } from './../../common/decorators/protocol.decorator';
 
 @ApiTags('coffins')
 @Controller('coffins')
