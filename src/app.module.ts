@@ -28,7 +28,9 @@ import { CommonModule } from './common/common.module';
     controllers: [AppController],
     providers: [
         AppService,
+        // validation for all routes and all controllers
         {
+            // APP_PIPE is a token that represents the ValidationPipe class
             provide: APP_PIPE,
             useClass: ValidationPipe,
         },

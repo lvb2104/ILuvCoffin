@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
     constructor(
+        // use Reflector to access metadata in the route handler
         private readonly reflector: Reflector,
         private readonly configService: ConfigService,
     ) {}

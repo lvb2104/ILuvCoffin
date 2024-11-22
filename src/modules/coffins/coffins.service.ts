@@ -18,8 +18,10 @@ export class CoffinsService {
     constructor(
         @InjectRepository(Coffin)
         private readonly coffinRepository: Repository<Coffin>,
+
         @InjectRepository(Color)
         private readonly colorRepository: Repository<Color>,
+
         private readonly dataSource: DataSource,
     ) {}
 
@@ -34,15 +36,11 @@ export class CoffinsService {
     }
 
     async getCoffinById(id: number) {
-        // const coffin = await this.coffinRepository.find({
-        //     where: { id },
-        //     relations: ['colors'],
-        // });
-
         const coffin = await this.coffinRepository.findOne({
             where: { id },
             relations: ['colors'],
         });
+
         if (!coffin) {
             throw new NotFoundException(`Coffin #${id} not found`);
         }

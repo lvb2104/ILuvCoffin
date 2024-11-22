@@ -18,7 +18,7 @@ describe('AppController (e2e)', () => {
     });
 
     it('/ (GET)', () => {
-        // use request to send an HTTP GET request to the root URL of the app and check the response status and body content using expect method from the supertest library 
+        // use request to send an HTTP GET request to the root URL of the app and check the response status and body content using expect method from the supertest library
         return request(app.getHttpServer())
             .get('/')
             .set('Authorization', process.env.API_KEY)
@@ -29,5 +29,5 @@ describe('AppController (e2e)', () => {
     // use after all tests are completed to close the app instance
     afterAll(async () => {
         await app.close();
-    })
+    });
 });

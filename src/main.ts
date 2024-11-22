@@ -9,6 +9,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
+    // apply the ValidationPipe to all routes
     app.useGlobalPipes(
         new ValidationPipe({
             whitelist: true,
@@ -20,7 +21,7 @@ async function bootstrap() {
         }),
     );
 
-    // setup swagger document for API documentation and testing in development environment only (not for production)
+    // setup swagger (not for production)
     const options = new DocumentBuilder()
         .setTitle('ILuvCoffin')
         .setDescription('Coffin application')
