@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { map, Observable, tap } from 'rxjs';
 
+// use interceptor in main.ts file
 @Injectable()
 export class WrapResponseInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {

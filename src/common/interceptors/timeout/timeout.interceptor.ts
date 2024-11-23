@@ -13,6 +13,7 @@ import {
     TimeoutError,
 } from 'rxjs';
 
+// use interceptor in main.ts file
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {

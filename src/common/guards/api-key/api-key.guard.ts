@@ -5,6 +5,7 @@ import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 
+// used guard in common module to protect routes and imported in the main module to protect all routes
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
     constructor(

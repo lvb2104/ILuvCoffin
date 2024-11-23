@@ -5,6 +5,7 @@ import {
     PipeTransform,
 } from '@nestjs/common';
 
+// custom pipe used in route handler arguments
 @Injectable()
 export class CustomParseIntPipe implements PipeTransform {
     transform(value: string, metadata: ArgumentMetadata) {
