@@ -17,6 +17,8 @@ import {
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+        // must invoke next.handle() to pass the request to the next middleware in the pipeline
+        // pipe() is a method from the rxjs package that allows you to chain operators to the observable
         return next.handle().pipe(
             timeout(5000),
             catchError((err) => {

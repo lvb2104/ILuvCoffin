@@ -8,6 +8,7 @@ export class LoggingMiddleware implements NestMiddleware {
         console.log(`Hello from middleware`);
 
         res.on('finish', () => console.timeEnd(`Request-response time`));
+        // must call next() to pass the request to the next middleware in the pipeline
         next();
     }
 }

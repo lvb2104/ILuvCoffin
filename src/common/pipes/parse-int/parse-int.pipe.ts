@@ -15,6 +15,7 @@ export class CustomParseIntPipe implements PipeTransform {
                 `Validation failed "${val}" is not an integer`,
             );
         }
+        // must return the value after transformation
         return val;
     }
 }

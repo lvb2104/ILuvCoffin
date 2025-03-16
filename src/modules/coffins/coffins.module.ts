@@ -11,6 +11,7 @@ import { Color } from './entities/color.entity';
     imports: [TypeOrmModule.forFeature([Coffin, Color, Event])],
     controllers: [CoffinsController],
     providers: [CoffinsService],
+    // export the service to make it available for other modules that import this module (e.g., the CoffinsModule)
     exports: [CoffinsService],
 })
 export class CoffinsModule {}

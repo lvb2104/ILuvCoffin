@@ -14,10 +14,15 @@ import { CommonModule } from './common/common.module';
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
+            // use Joi to validate the environment variables
+            // this is a good practice to ensure that the environment variables are set correctly
+            // and to provide default values for them
             validationSchema: Joi.object({
                 POSTGRES_HOST: Joi.required(),
                 POSTGRES_PORT: Joi.number().default(5432),
             }),
+            // load custom configuration
+            // this is a good practice to separate the configuration from the code
             load: [appConfig],
         }),
         DatabaseModule,
